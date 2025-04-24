@@ -2,6 +2,8 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/username/public_html/
+    - /bin/mkdir -p $DEPLOYPATH
+    - /bin/rm -rf $DEPLOYPATH/node_modules
     - /bin/cp -R app $DEPLOYPATH
     - /bin/cp -R components $DEPLOYPATH
     - /bin/cp -R hooks $DEPLOYPATH
@@ -14,4 +16,9 @@ deployment:
     - /bin/cp package.json $DEPLOYPATH
     - /bin/cp postcss.config.mjs $DEPLOYPATH
     - /bin/cp tailwind.config.ts $DEPLOYPATH
-    - /bin/cp tsconfig.json $DEPLOYPATH 
+    - /bin/cp tsconfig.json $DEPLOYPATH
+    # Create a temporary .htaccess file
+    - /bin/echo "RewriteEngine On" > $DEPLOYPATH/.htaccess
+    - /bin/echo "RewriteCond %{REQUEST_FILENAME} !-f" >> $DEPLOYPATH/.htaccess
+    - /bin/echo "RewriteCond %{REQUEST_FILENAME} !-d" >> $DEPLOYPATH/.htaccess
+    - /bin/echo "RewriteRule ^(.*)$ /index.js [L]" >> $DEPLOYPATH/.htaccess 
