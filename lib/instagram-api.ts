@@ -4,7 +4,7 @@ import { getSupabaseServerClient } from "./supabase"
 const GRAPH_API_URL = "https://graph.instagram.com/v18.0"
 
 // Default redirect URI if environment variable is not set
-const DEFAULT_REDIRECT_URI = "https://socialspy-dashboard.vercel.app/api/auth/callback/instagram"
+const DEFAULT_REDIRECT_URI = "https://socialtracknavi.netlify.app/api/auth/callback/instagram"
 
 // Types
 export type InstagramAccount = {
