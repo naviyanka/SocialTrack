@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/username/public_html/a
+    - export DEPLOYPATH=/home/naviyan2/public_html/a
     # Create directory and clean up
     - /bin/mkdir -p $DEPLOYPATH
     - /bin/rm -rf $DEPLOYPATH/node_modules
@@ -19,8 +19,11 @@ deployment:
     - /bin/cp postcss.config.mjs $DEPLOYPATH
     - /bin/cp tailwind.config.ts $DEPLOYPATH
     - /bin/cp tsconfig.json $DEPLOYPATH
-    # Create application entry point
-    - /bin/echo '{"scripts":{"start":"next start","build":"next build"},"dependencies":{"next":"latest","react":"latest","react-dom":"latest"}}' > $DEPLOYPATH/package.json
+    # Create package.json with minimal dependencies
+    - /bin/echo '{"name":"socialtrack","version":"1.0.0","private":true,"scripts":{"dev":"next dev","build":"next build","start":"next start -p $PORT"},"dependencies":{"next":"13.5.6","react":"18.2.0","react-dom":"18.2.0"},"engines":{"node":">=18.17.0"}}' > $DEPLOYPATH/package.json
+    # Create .npmrc to reduce memory usage
+    - /bin/echo "maxsockets=5" > $DEPLOYPATH/.npmrc
+    - /bin/echo "production=true" >> $DEPLOYPATH/.npmrc
     # Create a .htaccess file for routing
     - /bin/echo "DirectoryIndex disabled" > $DEPLOYPATH/.htaccess
     - /bin/echo "RewriteEngine On" >> $DEPLOYPATH/.htaccess
